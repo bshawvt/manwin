@@ -1,15 +1,18 @@
 #A very simple window manager hobby project for the X window system.
 
-Features:
+Current hotkeys:
 
-* Move window: *Super + Mouse 1*
+    Move window: Super + Mouse 1
 
-* Resize window: *Super + Mouse 2*
+    Resize window: Super + Mouse 2
 	
-* Activate window: *Super + F1*
+    Activate window: Super + F1
 
-* Close window: *Super + F4*
+    Close window: Super + F4
 
+Features:
+ 
+    todo
 
 To build: 
 
@@ -17,4 +20,4 @@ To build:
 
 Todo: 
 
-the todo list
+    the todo list
