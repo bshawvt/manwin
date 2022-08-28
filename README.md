@@ -7,11 +7,8 @@ To build:
 Current hotkeys:
 
     Move window: Super + Mouse 1
-
     Resize window: Super + Mouse 2
-	
     Activate window: Super + F1
-
     Close window: Super + F4
 
 Features:
