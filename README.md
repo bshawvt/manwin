@@ -1,4 +1,8 @@
-#A very simple window manager hobby project for the X window system.
+# A very simple window manager hobby project for the X window system.
+
+To build: 
+
+```gcc main.c -o3 -lX11 -o winman```
 
 Current hotkeys:
 
@@ -13,10 +17,6 @@ Current hotkeys:
 Features:
  
     todo
-
-To build: 
-
-```gcc main.c -o3 -lX11 -o winman```
 
 Todo: 
 
