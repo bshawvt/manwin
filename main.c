@@ -10,10 +10,14 @@
 //#include "parse.h"
 //#include "helpers.h"
 #include "wm.h"
+
 int main(int argc, char *argv[]) {
-	Log("hello wm world");
-	WMState *state = initWM();
+	Log("hello wm world: %i %i", sizeof(int), sizeof(short int));
+	WMState *state = initWM(false);
 	Log("wm state ready");
+	Log("screens: %i", XScreenCount(state->display));
+	//int cycle = 0;
+	//XWarpPointer(state->display, state->rootWindow, state->rootWindow, 1, 1, 10, 10, 10, 10);
 	while(state->shutdown == 0) {
 		XNextEvent(state->display, &state->event);
 		WMEventState inputState = getEventState(state);
@@ -28,8 +32,33 @@ int main(int argc, char *argv[]) {
 					XSetInputFocus(state->display, inputState.eventWindow, RevertToParent, CurrentTime);
 				}
 				else if (inputState.inputCode == state->fnCloseKeycode) {
-					Log("todo: handle close window hotkey");
+					Log("todo: handle close window hotkey better");
+					killWindow(state, inputState.eventWindow);
+					
 				}
+				else if (inputState.inputCode == state->fnActivateNextKeycode) {
+					Log("todo: the alt(super)+tab hotkey is not implemented");
+					/*
+						what i know so far:
+							all windows are children of root
+							all child windows of children of root are also children of root
+							XQueryTree root and parent will always be same
+							argh!
+					*/
+					/*WMWindows subs = getRootSubwindows(state);
+					Log("length: %i", subs.length);
+					if (subs.length == 0)
+						break;
+					if ((inputState.modifiers & ShiftMask) == ShiftMask) { // reverse order
+						state->cycle = (state->cycle + subs.length - 1) % subs.length;
+					}
+					else {
+						state->cycle = (state->cycle + 1) % subs.length;
+					}*/
+					//Log("activated window id: %i %i", subs.windows[state->cycle - 1], state->cycle);
+					//getWindows(state, subs.windows[state->cycle]);
+					//activateWindow(state, subs.windows[state->cycle]);
+				};
 				break;
 			}
 			case ButtonPress: {
@@ -39,7 +68,7 @@ int main(int argc, char *argv[]) {
 			}
 			case ButtonRelease: {
 				state->lastEventState = (WMEventState) {0};
-				state->lastEventState.active = false;
+				state->lastEventState.active = false; // todo
 				break;
 			}
 			case MotionNotify: {
@@ -74,4 +103,4 @@ int main(int argc, char *argv[]) {
 	};
 	cleanWM(state); // send save your self / shutdown messages or whatever maybe?
 	return 1;
-}
+};

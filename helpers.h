@@ -10,8 +10,8 @@
 typedef int bool;
 
 int ClampI(int val, int min, int max);
-double ClampD(double val, int min, int max);
-float ClampF(float val, int min, int max);
+double ClampD(double val, double min, double max);
+float ClampF(float val, float min, float max);
 
 int ClampI(int val, int min, int max) {
 	if (val < min)
@@ -20,14 +20,14 @@ int ClampI(int val, int min, int max) {
 		return max;
 	return val;
 }
-double ClampD(double val, int min, int max) {
+double ClampD(double val, double min, double max) {
 	if (val < min)
 		return min;
 	if (val > max)
 		return max;
 	return val;
 }
-float ClampF(float val, int min, int max) {
+float ClampF(float val, float min, float max) {
 	if (val < min)
 		return min;
 	if (val > max)
