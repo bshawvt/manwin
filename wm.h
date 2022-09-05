@@ -68,7 +68,11 @@ void activateWindow(WMState *state, Window window);
 	*/
 void showWindow(WMState *state, Window window);
 /* killWindow 
-	kills any x client and then removes the child reference from state if applicable 
+	kills any x client and its children and then removes the child reference from state if applicable 
+	*/
+void closeWindow(WMState *state, Window window);
+/* closeWindow 
+	closes any x client and then removes the child reference from state if applicable 
 	*/
 void killWindow(WMState *state, Window window);
 /* getWindowRect
@@ -360,8 +364,33 @@ void showWindow(WMState *state, Window window) {
 void activateWindow(WMState *state, Window window) {
 	XRaiseWindow(state->display, window);
 };
+// close window
+void closeWindow(WMState *state, Window window) {
+//void killWindow(WMState *state, Window window) {
+	/* thank you freedesktop: https://specifications.freedesktop.org/wm-spec/1.4/ar01s06.html 
+		& dwm source for this tip*/
+	for(int i = 0; i < MAX_CHILD_WINDOWS; i++) { // do some child window record keeping
+		if (state->children[i] == window) {
+			state->children[i] = None;
+			state->childrenLength--;
+			break;
+		};
+	};
+	//XKillClient(state->display, window);
+	XEvent event;
+	event.type = ClientMessage;
+	event.xclient.window = window;
+	event.xclient.message_type = XInternAtom(state->display, "WM_PROTOCOLS", False);
+	event.xclient.format = 32;
+	event.xclient.data.l[0] = XInternAtom(state->display, "WM_DELETE_WINDOW", False);
+	event.xclient.data.l[1] = CurrentTime;
+	XSendEvent(state->display, window, false, NoEventMask, &event);
+	//XDestroyWindow(state->display, window);
+	XFlush(state->display);
+};
 // kill wm children windows;
 void killWindow(WMState *state, Window window) {
+//void closeWindow(WMState *state, Window window) {
 	for(int i = 0; i < MAX_CHILD_WINDOWS; i++) { // do some child window record keeping
 		if (state->children[i] == window) {
 			state->children[i] = None;

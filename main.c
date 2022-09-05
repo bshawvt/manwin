@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 				}
 				else if (inputState.inputCode == state->fnCloseKeycode) {
 					Log("todo: handle close window hotkey better");
-					killWindow(state, inputState.eventWindow);
+					closeWindow(state, inputState.eventWindow);
 					
 				}
 				else if (inputState.inputCode == state->fnActivateNextKeycode) {
