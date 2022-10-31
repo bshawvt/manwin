@@ -10,7 +10,6 @@
 //#include "parse.h"
 //#include "helpers.h"
 #include "wm.h"
-
 int main(int argc, char *argv[]) {
 	Log("hello wm world: %i %i", sizeof(int), sizeof(short int));
 	WMState *state = initWM(false);
